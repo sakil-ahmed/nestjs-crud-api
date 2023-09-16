@@ -11,6 +11,17 @@ async function bootstrap() {
     .setTitle('Task Management CRUD App')
     .setDescription('Task Management CRUD App API Docs')
     .setVersion('1.0.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter Jwt Token',
+        in: 'header',
+      },
+      'JWT-auth',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -20,6 +31,4 @@ async function bootstrap() {
   app.enableCors();
   await app.listen(process.env.PORT);
 }
-bootstrap().then(() => {
-  console.log('App Started on Port' + ' ' + process.env.PORT);
-});
+bootstrap().then();

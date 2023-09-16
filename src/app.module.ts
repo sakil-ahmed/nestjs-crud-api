@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TaskModule } from './task/task.module';
-import { AuthModule } from './auth/auth.module';
 import { StatusModule } from './status/status.module';
 import { CategoriesModule } from './categories/categories.module';
+import { AuthModule } from './auth/auth.module';
+import { MulterModule } from '@nestjs/platform-express';
+import { UploadFilesModule } from './upload-files/upload-files.module';
 
 @Module({
   imports: [
@@ -19,10 +21,13 @@ import { CategoriesModule } from './categories/categories.module';
       }),
       inject: [ConfigService],
     }),
+    MulterModule.register({ dest: './uploads' }),
+
     AuthModule,
     TaskModule,
     StatusModule,
     CategoriesModule,
+    UploadFilesModule,
   ],
   controllers: [],
   providers: [],

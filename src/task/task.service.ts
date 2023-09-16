@@ -12,21 +12,21 @@ import mongoose from 'mongoose';
 
 @Injectable()
 export class TaskService {
-  constructor(@InjectModel(Task.name) private taskService: Model<Task>) {}
+  constructor(@InjectModel(Task.name) private taskModel: Model<Task>) {}
 
   async create(createTaskDto: CreateTaskDto): Promise<Task> {
-    const foundParent = await this.taskService.find({
+    const foundParent = await this.taskModel.find({
       name: createTaskDto.title,
     });
     if (foundParent.length > 0)
       throw new BadRequestException('Task already exists');
 
-    const res = await this.taskService.create(createTaskDto);
+    const res = await this.taskModel.create(createTaskDto);
     return res;
   }
 
   async findAll(): Promise<Task[]> {
-    const res = await this.taskService.find();
+    const res = await this.taskModel.find();
     return res;
   }
 
@@ -35,7 +35,7 @@ export class TaskService {
     if (!isValidId) {
       throw new BadRequestException('Enter a valid mongodb id.');
     }
-    const res = await this.taskService.findById(id);
+    const res = await this.taskModel.findById(id);
     if (!res) {
       throw new NotFoundException({ message: 'Task not found' });
     }
@@ -47,12 +47,12 @@ export class TaskService {
     if (!isValidId) {
       throw new BadRequestException('Enter a valid mongodb id.');
     }
-    const data = await this.taskService.findById(id);
+    const data = await this.taskModel.findById(id);
     if (!data) {
       throw new BadRequestException('Item Not Exist');
     }
 
-    const res = await this.taskService.findByIdAndUpdate(id, updateTaskDto);
+    const res = await this.taskModel.findByIdAndUpdate(id, updateTaskDto);
     return res;
   }
 
@@ -62,10 +62,10 @@ export class TaskService {
       throw new BadRequestException('Enter a Valid Mongodb Id');
     }
 
-    const res = await this.taskService.findById(id);
+    const res = await this.taskModel.findById(id);
     if (!res) {
       throw new BadRequestException('Item Not Exist');
     }
-    return this.taskService.findByIdAndDelete(id);
+    return this.taskModel.findByIdAndDelete(id);
   }
 }

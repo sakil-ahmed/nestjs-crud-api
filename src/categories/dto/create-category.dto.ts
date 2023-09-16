@@ -7,6 +7,10 @@ export class CreateCategoryDto {
   readonly name: string;
 
   @IsNotEmpty()
+  @ApiProperty()
+  readonly slug: string;
+
+  @IsNotEmpty()
   @IsHexColor()
   @ApiProperty()
   readonly color: string;

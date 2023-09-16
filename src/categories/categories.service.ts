@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -14,21 +13,21 @@ import * as mongoose from 'mongoose';
 @Injectable()
 export class CategoriesService {
   constructor(
-    @InjectModel(Category.name) private categoryService: Model<Category>,
+    @InjectModel(Category.name) private categoryModel: Model<Category>,
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    const foundParent = await this.categoryService.find({
+    const foundParent = await this.categoryModel.find({
       name: createCategoryDto.name,
     });
     if (foundParent.length > 0)
       throw new BadRequestException('Category already exists');
-    const res = await this.categoryService.create(createCategoryDto);
+    const res = await this.categoryModel.create(createCategoryDto);
     return res;
   }
 
   async findAll(): Promise<Category[]> {
-    const res = await this.categoryService.find();
+    const res = await this.categoryModel.find();
     return res;
   }
 
@@ -37,7 +36,7 @@ export class CategoriesService {
     if (!isValidId) {
       throw new BadRequestException('Enter a valid mongodb id.');
     }
-    const res = await this.categoryService.findById(id);
+    const res = await this.categoryModel.findById(id);
     if (!res) {
       throw new NotFoundException({ message: 'Category not found' });
     }
@@ -49,11 +48,11 @@ export class CategoriesService {
     if (!isValidId) {
       throw new BadRequestException('Enter a valid mongodb id.');
     }
-    const data = await this.categoryService.findById(id);
+    const data = await this.categoryModel.findById(id);
     if (!data) {
       throw new BadRequestException('Item Not Exist');
     }
-    const res = await this.categoryService.findByIdAndUpdate(
+    const res = await this.categoryModel.findByIdAndUpdate(
       id,
       updateCategoryDto,
     );
@@ -65,10 +64,10 @@ export class CategoriesService {
     if (!isValidId) {
       throw new BadRequestException('Enter a Valid Mongodb Id');
     }
-    const res = await this.categoryService.findById(id);
+    const res = await this.categoryModel.findById(id);
     if (!res) {
       throw new BadRequestException('Item Not Exist');
     }
-    return this.categoryService.findByIdAndDelete(id);
+    return this.categoryModel.findByIdAndDelete(id);
   }
 }

@@ -6,22 +6,27 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { StatusService } from './status.service';
 import { CreateStatusDto } from './dto/create-status.dto';
 import { UpdateStatusDto } from './dto/update-status.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('status')
 @ApiTags('Status')
+@ApiSecurity('JWT-auth')
 export class StatusController {
   constructor(private readonly statusService: StatusService) {}
-  // @Post()
-  // create(@Body() createStatusDto: CreateStatusDto) {
-  //   return this.statusService.create(createStatusDto);
-  // }
+  @Post()
+  @UseGuards(JwtAuthGuard)
+  create(@Body() createStatusDto: CreateStatusDto) {
+    return this.statusService.create(createStatusDto);
+  }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.statusService.findAll();
   }

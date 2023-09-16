@@ -8,6 +8,9 @@ export class Status {
   readonly name: string;
 
   @Prop()
+  readonly slug: string;
+
+  @Prop()
   readonly color: string;
 }
 
