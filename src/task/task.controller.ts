@@ -13,6 +13,7 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { UserId } from '../common/custom.decorator';
 
 @Controller('task')
 @ApiTags('Task')
@@ -22,14 +23,14 @@ export class TaskController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  create(@Body() createTaskDto: CreateTaskDto) {
-    return this.taskService.create(createTaskDto);
+  create(@UserId() userId: string, @Body() createTaskDto: CreateTaskDto) {
+    return this.taskService.create(createTaskDto, userId);
   }
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  findAll() {
-    return this.taskService.findAll();
+  findAll(@UserId() userId: string) {
+    return this.taskService.findAll(userId);
   }
 
   @Get(':id')

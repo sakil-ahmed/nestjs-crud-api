@@ -16,18 +16,25 @@ export class CategoriesService {
     @InjectModel(Category.name) private categoryModel: Model<Category>,
   ) {}
 
-  async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    const foundParent = await this.categoryModel.find({
-      name: createCategoryDto.name,
-    });
+  async create(
+    createCategoryDto: CreateCategoryDto,
+    userId: string,
+  ): Promise<Category> {
+    const { name, color } = createCategoryDto;
+    const foundParent = await this.categoryModel.find({ name });
     if (foundParent.length > 0)
       throw new BadRequestException('Category already exists');
-    const res = await this.categoryModel.create(createCategoryDto);
+    const res = await this.categoryModel.create({
+      name,
+      color,
+      slug: name.toLowerCase().replace(' ', '_'),
+      createdBy: userId,
+    });
     return res;
   }
 
-  async findAll(): Promise<Category[]> {
-    const res = await this.categoryModel.find();
+  async findAll(userId: string): Promise<Category[]> {
+    const res = await this.categoryModel.find({ createdBy: userId });
     return res;
   }
 
@@ -44,6 +51,7 @@ export class CategoriesService {
   }
 
   async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+    const { name, color } = updateCategoryDto;
     const isValidId = mongoose.isValidObjectId(id);
     if (!isValidId) {
       throw new BadRequestException('Enter a valid mongodb id.');
@@ -52,10 +60,11 @@ export class CategoriesService {
     if (!data) {
       throw new BadRequestException('Item Not Exist');
     }
-    const res = await this.categoryModel.findByIdAndUpdate(
-      id,
-      updateCategoryDto,
-    );
+    const res = await this.categoryModel.findByIdAndUpdate(id, {
+      name,
+      color,
+      slug: name.toLowerCase().replace(' ', '_'),
+    });
     return res;
   }
 

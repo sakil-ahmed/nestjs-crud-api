@@ -22,39 +22,39 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 export class UploadFilesController {
   constructor(private readonly uploadFilesService: UploadFilesService) {}
 
-  @ApiConsumes('multipart/form-data')
-  @ApiBody({
-    schema: {
-      type: 'object',
-      required: ['assets'],
-      properties: {
-        assets: {
-          type: 'array',
-          items: {
-            type: 'string',
-            format: 'binary',
-          },
-        },
-      },
-    },
-  })
-  @Post()
-  @UseGuards(JwtAuthGuard)
-  @UseInterceptors(
-    FileInterceptor('assets', {
-      storage: diskStorage({
-        destination: './assets',
-        filename(
-          req: e.Request,
-          file: Express.Multer.File,
-          callback: (error: Error | null, filename: string) => void,
-        ) {
-          callback(null, `${file.originalname}`);
-        },
-      }),
-    }),
-  )
-  uploadFile(@UploadedFile() assets: Express.Multer.File) {
-    return this.uploadFilesService.upload(assets);
-  }
+  // @ApiConsumes('multipart/form-data')
+  // @ApiBody({
+  //   schema: {
+  //     type: 'object',
+  //     required: ['assets'],
+  //     properties: {
+  //       assets: {
+  //         type: 'array',
+  //         items: {
+  //           type: 'string',
+  //           format: 'binary',
+  //         },
+  //       },
+  //     },
+  //   },
+  // })
+  // @Post()
+  // @UseGuards(JwtAuthGuard)
+  // @UseInterceptors(
+  //   FileInterceptor('assets', {
+  //     storage: diskStorage({
+  //       destination: './assets',
+  //       filename(
+  //         req: e.Request,
+  //         file: Express.Multer.File,
+  //         callback: (error: Error | null, filename: string) => void,
+  //       ) {
+  //         callback(null, `${file.originalname}`);
+  //       },
+  //     }),
+  //   }),
+  // )
+  // uploadFile(@UploadedFile() assets: Express.Multer.File) {
+  //   return this.uploadFilesService.upload(assets);
+  // }
 }

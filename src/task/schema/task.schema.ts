@@ -12,6 +12,9 @@ export class Task {
 
   @Prop()
   readonly status: string;
+
+  @Prop()
+  readonly createdBy: string;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

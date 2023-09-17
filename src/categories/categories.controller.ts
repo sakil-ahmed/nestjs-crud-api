@@ -13,6 +13,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { UserId } from '../common/custom.decorator';
 
 @Controller('categories')
 @ApiTags('Categories')
@@ -22,14 +23,17 @@ export class CategoriesController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoriesService.create(createCategoryDto);
+  create(
+    @UserId() userId: string,
+    @Body() createCategoryDto: CreateCategoryDto,
+  ) {
+    return this.categoriesService.create(createCategoryDto, userId);
   }
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  findAll() {
-    return this.categoriesService.findAll();
+  findAll(@UserId() userId: string) {
+    return this.categoriesService.findAll(userId);
   }
 
   @Get(':id')

@@ -7,6 +7,12 @@ export class Category {
 
   @Prop()
   readonly color: string;
+
+  @Prop()
+  readonly slug: string;
+
+  @Prop()
+  readonly createdBy: string;
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);

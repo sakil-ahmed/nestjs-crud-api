@@ -7,10 +7,6 @@ export class CreateStatusDto {
   readonly name: string;
 
   @IsNotEmpty()
-  @ApiProperty()
-  readonly slug: string;
-
-  @IsNotEmpty()
   @IsHexColor()
   @ApiProperty()
   readonly color: string;

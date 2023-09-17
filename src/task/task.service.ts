@@ -14,19 +14,25 @@ import mongoose from 'mongoose';
 export class TaskService {
   constructor(@InjectModel(Task.name) private taskModel: Model<Task>) {}
 
-  async create(createTaskDto: CreateTaskDto): Promise<Task> {
+  async create(createTaskDto: CreateTaskDto, userId: string): Promise<Task> {
+    const { title, status, description } = createTaskDto;
     const foundParent = await this.taskModel.find({
-      name: createTaskDto.title,
+      name: title,
     });
     if (foundParent.length > 0)
       throw new BadRequestException('Task already exists');
 
-    const res = await this.taskModel.create(createTaskDto);
+    const res = await this.taskModel.create({
+      title,
+      status,
+      description,
+      createdBy: userId,
+    });
     return res;
   }
 
-  async findAll(): Promise<Task[]> {
-    const res = await this.taskModel.find();
+  async findAll(userId: string): Promise<Task[]> {
+    const res = await this.taskModel.find({ createdBy: userId });
     return res;
   }
 
