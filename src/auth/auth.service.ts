@@ -44,16 +44,23 @@ export class AuthService {
   }
 
   async getToken(user: any) {
+    const { _id, name, email, createdAt, updatedAt } = user;
     const accessToken = this.jwtService.sign({
-      id: user._id,
+      id: _id,
     });
     const refreshToken = this.jwtService.sign({
-      id: user._id,
+      id: _id,
     });
     return {
       accessToken,
       refreshToken,
-      user,
+      user: {
+        id: _id,
+        name,
+        email,
+        createdAt,
+        updatedAt,
+      },
     };
   }
 }

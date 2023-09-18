@@ -7,6 +7,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { UploadFilesModule } from './upload-files/upload-files.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { UploadFilesModule } from './upload-files/upload-files.module';
     StatusModule,
     CategoriesModule,
     UploadFilesModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],
