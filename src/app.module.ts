@@ -6,7 +6,6 @@ import { StatusModule } from './status/status.module';
 import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
 import { MulterModule } from '@nestjs/platform-express';
-import { UploadFilesModule } from './upload-files/upload-files.module';
 import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -30,7 +29,6 @@ import { AppService } from './app.service';
     TaskModule,
     StatusModule,
     CategoriesModule,
-    UploadFilesModule,
     UsersModule,
   ],
   controllers: [AppController],
