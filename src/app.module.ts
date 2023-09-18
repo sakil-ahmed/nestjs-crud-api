@@ -8,6 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { UploadFilesModule } from './upload-files/upload-files.module';
 import { UsersModule } from './users/users.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -31,7 +33,7 @@ import { UsersModule } from './users/users.module';
     UploadFilesModule,
     UsersModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
