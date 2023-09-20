@@ -2,7 +2,10 @@ import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export enum status {
-  TODO = 'Todo',
+  TODO = 'todo',
+  PENDING = 'pending',
+  IN_PROGRESS = 'in_progress',
+  DONE = 'done',
 }
 
 export class CreateTaskDto {

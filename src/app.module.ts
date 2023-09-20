@@ -9,6 +9,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ProjectsModule } from './projects/projects.module';
 
 @Module({
   imports: [
@@ -24,8 +25,8 @@ import { AppService } from './app.service';
       inject: [ConfigService],
     }),
     MulterModule.register({ dest: './uploads' }),
-
     AuthModule,
+    ProjectsModule,
     TaskModule,
     StatusModule,
     CategoriesModule,
