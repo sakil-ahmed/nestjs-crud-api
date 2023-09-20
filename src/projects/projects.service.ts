@@ -48,8 +48,19 @@ export class ProjectsService {
     return project;
   }
 
-  update(id: number, updateProjectDto: UpdateProjectDto) {
-    return `This action updates a #${id}project`;
+  async update(id: string, updateProjectDto: UpdateProjectDto) {
+    if (!mongoose.isValidObjectId(id)) {
+      throw new BadRequestException('Enter a valid Mongodb id');
+    }
+    const project = await this.findOne(id);
+    if (!project) {
+      throw new BadRequestException('Project not Exist');
+    }
+    const updateProject: any = await this.projectModel.findByIdAndUpdate(
+      id,
+      updateProjectDto,
+    );
+    return updateProject;
   }
 
   async remove(id: string) {
