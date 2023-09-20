@@ -25,7 +25,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/v1', app, document, {
+  SwaggerModule.setup('/', app, document, {
     customSiteTitle: 'Task management App',
   });
   app.enableCors();
