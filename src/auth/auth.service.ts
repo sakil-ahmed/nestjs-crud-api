@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -21,7 +22,14 @@ export class AuthService {
 
   async signUp(signUpDto: SignupDto) {
     const { password, name, email } = signUpDto;
+    const findUser = await this.userModel.findOne({email})
+    if (findUser) {
+      throw new ConflictException('Email already exists');
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
+
+
+    console.log(findUser)
     const user = await this.userModel.create({
       name,
       email,
