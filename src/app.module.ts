@@ -1,14 +1,14 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
-import { TaskModule } from './task/task.module';
-import { StatusModule } from './status/status.module';
-import { CategoriesModule } from './categories/categories.module';
-import { AuthModule } from './auth/auth.module';
-import { MulterModule } from '@nestjs/platform-express';
-import { UsersModule } from './users/users.module';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Module, } from '@nestjs/common';
+import {ConfigModule, ConfigService} from '@nestjs/config';
+import {MongooseModule} from '@nestjs/mongoose';
+import {TaskModule} from './task/task.module';
+import {StatusModule} from './status/status.module';
+import {CategoriesModule} from './categories/categories.module';
+import {AuthModule} from './auth/auth.module';
+import {MulterModule} from '@nestjs/platform-express';
+import {AppController} from './app.controller';
+import {AppService} from './app.service';
+
 
 
 @Module({
@@ -24,14 +24,15 @@ import { AppService } from './app.service';
       }),
       inject: [ConfigService],
     }),
-    MulterModule.register({ dest: './uploads' }),
+    MulterModule.register({dest: './uploads'}),
     AuthModule,
     TaskModule,
     StatusModule,
     CategoriesModule,
-    // UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+
+}
