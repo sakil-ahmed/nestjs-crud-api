@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import {IsEnum, IsNotEmpty, IsOptional, IsString} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export enum status {
@@ -20,7 +20,12 @@ export class CreateTaskDto {
   readonly description: string;
 
   @IsEnum(status)
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty()
   readonly status: string;
+
+
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly categoryId: string;
 }

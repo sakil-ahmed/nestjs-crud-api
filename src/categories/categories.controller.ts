@@ -8,18 +8,19 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { CategoriesService } from './categories.service';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
-import { ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { UserId } from '../common/custom.decorator';
+import {CategoriesService} from './categories.service';
+import {CreateCategoryDto} from './dto/create-category.dto';
+import {UpdateCategoryDto} from './dto/update-category.dto';
+import {ApiSecurity, ApiTags} from '@nestjs/swagger';
+import {JwtAuthGuard} from '../auth/guards/jwt-auth.guard';
+import {UserId} from '../common/custom.decorator';
 
 @Controller('categories')
 @ApiTags('Categories')
 @ApiSecurity('JWT-auth')
 export class CategoriesController {
-  constructor(private readonly categoriesService: CategoriesService) {}
+  constructor(private readonly categoriesService: CategoriesService) {
+  }
 
   @Post()
   @UseGuards(JwtAuthGuard)
@@ -32,15 +33,24 @@ export class CategoriesController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  findAll(@UserId() userId: string) {
-    return this.categoriesService.findAll(userId);
+  async findAll(@UserId() userId: string) {
+
+    const category = await this.categoriesService.findAll(userId);
+    return category.map(({name, createdBy, slug, color, _id}) => ({
+      id: _id,
+      name,
+      slug,
+      color,
+      createdBy,
+
+    }))
   }
 
-  @Get(':id')
-  @UseGuards(JwtAuthGuard)
-  findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(id);
-  }
+  // @Get(':id')
+  // @UseGuards(JwtAuthGuard)
+  // findOne(@Param('id') id: string) {
+  //   return this.categoriesService.findOne(id);
+  // }
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)

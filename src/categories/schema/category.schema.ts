@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import {Document} from "mongoose";
 
-@Schema({ timestamps: true })
-export class Category {
+@Schema({ timestamps: true , versionKey:false })
+export class Category extends Document{
   @Prop()
   readonly name: string;
 
@@ -13,6 +14,7 @@ export class Category {
 
   @Prop()
   readonly createdBy: string;
+
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);

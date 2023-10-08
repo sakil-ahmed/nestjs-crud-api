@@ -15,7 +15,11 @@ export class TaskService {
   constructor(@InjectModel(Task.name) private taskModel: Model<Task>) {}
 
   async create(createTaskDto: CreateTaskDto, userId: string): Promise<Task> {
-    const { title, status, description } = createTaskDto;
+    const { title, status, description , categoryId} = createTaskDto;
+
+    if (!mongoose.isValidObjectId(categoryId)){
+      throw new BadRequestException('Category ID must be a valid MongoDB ID');
+    }
     const foundParent = await this.taskModel.find({
       name: title,
     });
@@ -26,14 +30,15 @@ export class TaskService {
       title,
       status,
       description,
+      categoryId,
       createdBy: userId,
     });
     return res;
   }
 
   async findAll(userId: string): Promise<Task[]> {
-    const res = await this.taskModel.find({ createdBy: userId });
-    return res;
+     return this.taskModel.find({ createdBy: userId });
+
   }
 
   async findOne(id: string): Promise<Task> {

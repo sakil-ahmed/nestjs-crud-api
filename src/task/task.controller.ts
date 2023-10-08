@@ -8,18 +8,19 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { TaskService } from './task.service';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
-import { ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { UserId } from '../common/custom.decorator';
+import {TaskService} from './task.service';
+import {CreateTaskDto} from './dto/create-task.dto';
+import {UpdateTaskDto} from './dto/update-task.dto';
+import {ApiSecurity, ApiTags} from '@nestjs/swagger';
+import {JwtAuthGuard} from '../auth/guards/jwt-auth.guard';
+import {UserId} from '../common/custom.decorator';
 
 @Controller('task')
 @ApiTags('Task')
 @ApiSecurity('JWT-auth')
 export class TaskController {
-  constructor(private readonly taskService: TaskService) {}
+  constructor(private readonly taskService: TaskService) {
+  }
 
   @Post()
   @UseGuards(JwtAuthGuard)
@@ -29,8 +30,17 @@ export class TaskController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  findAll(@UserId() userId: string) {
-    return this.taskService.findAll(userId);
+  async findAll(@UserId() userId: string) {
+    const res = await this.taskService.findAll(userId);
+    return res.map(({_id, createdBy, status, title, description, categoryId}) => ({
+        id: _id,
+        title,
+        description,
+        status,
+        categoryId,
+        createdBy,
+      })
+    )
   }
 
   @Get(':id')

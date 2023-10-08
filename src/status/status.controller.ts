@@ -19,11 +19,11 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 @ApiSecurity('JWT-auth')
 export class StatusController {
   constructor(private readonly statusService: StatusService) {}
-  @Post()
-  @UseGuards(JwtAuthGuard)
-  create(@Body() createStatusDto: CreateStatusDto) {
-    return this.statusService.create(createStatusDto);
-  }
+  // @Post()
+  // @UseGuards(JwtAuthGuard)
+  // create(@Body() createStatusDto: CreateStatusDto) {
+  //   return this.statusService.create(createStatusDto);
+  // }
 
   @Get()
   @UseGuards(JwtAuthGuard)
